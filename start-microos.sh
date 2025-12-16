@@ -10,7 +10,7 @@ vms=(
 
 CURRENT_DIR=$(pwd)
 
-TEMPLATE_DISK_FILE="$CURRENT_DIR/opensuse-microos.qcow2"
+TEMPLATE_DISK_FILE="$CURRENT_DIR/openSUSE-MicroOS.x86_64-ContainerHost-kvm-and-xen.qcow2"
 
 VCPU=2
 MEMORY_MB=2048

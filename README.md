@@ -9,6 +9,7 @@
 ## Installing
 
 - Copy the downloaded qcow2 file to working directory.
+- Copy the downloaded butane binary executable into working directory
 - Edit the following env from scripts [./start-microos.sh](./start-microos.sh)
 
 ```bash
