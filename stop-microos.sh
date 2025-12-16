@@ -11,8 +11,12 @@ vms=(
 )
 
 for vm in ${vms[*]}; do
-    echo "Destroying VM $vm"
+    echo "Power Off VM $vm"
     virsh destroy $vm
+    if [[ $1 == "--destroy" ]];
+    then
+    echo "Cleanup VM $vm"
     virsh undefine $vm --remove-all-storage
+    fi
     rm -f $vm.ign
 done
