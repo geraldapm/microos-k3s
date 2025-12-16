@@ -80,6 +80,36 @@ chmod 600 ~/.kube/config
 sed -i "s/127.0.0.1/$IP_FLOATING/" ~/.kube/config
 ```
 
+- Optional: Install headlamp dashboard
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/headlamp/main/kubernetes-headlamp.yaml
+
+kubectl -n kube-system create serviceaccount headlamp-admin
+kubectl create clusterrolebinding headlamp-admin --serviceaccount=kube-system:headlamp-admin --clusterrole=cluster-admin
+
+cat << EOF | kubectl apply -f -
+kind: Service
+apiVersion: v1
+metadata:
+  name: headlamp-nodeport
+  namespace: kube-system
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 4466
+      nodePort: 30009
+  selector:
+    k8s-app: headlamp
+EOF
+
+## Generate headlamp-admin token to enable login into headlamp web
+kubectl create token headlamp-admin -n kube-system
+
+## Access web with http://<controlplanenode>:30009
+```
+
 - Use with your needs, feel free to play with the K3s Cluster.
 
 ## Cleanup
