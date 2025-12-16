@@ -8,6 +8,8 @@ vms=(
     "gpmworker2"
 )
 
+CURRENT_DIR=$(pwd)
+
 TEMPLATE_DISK_FILE="$CURRENT_DIR/opensuse-microos.qcow2"
 
 VCPU=2
@@ -26,7 +28,6 @@ K3S_TOKEN="K3S_SECRET_TOKEN"
 ### Dynamic provisioning
 IP_GATEWAY="$(echo $IP_SUBNET | cut -d. -f1-3).1"
 IP_FLOATING="$(echo $IP_SUBNET | cut -d. -f1-3).99"
-CURRENT_DIR=$(pwd)
 
 for vm in ${vms[*]}; do 
     cp --update=none $TEMPLATE_DISK_FILE $vm.qcow2
