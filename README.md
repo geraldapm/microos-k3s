@@ -117,10 +117,16 @@ kubectl create token headlamp-admin -n kube-system
 
 ## Cleanup
 
-Destroy the VMs
+Poweroff the VMs
 
 ```bash
-bash start-microos.sh
+bash stop-microos.sh
+```
+
+Poweroff and cleanup all the VMs data
+
+```bash
+bash stop-microos.sh --destroy
 ```
 
 ## Troubleshooting
