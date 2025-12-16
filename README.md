@@ -127,6 +127,13 @@ bash start-microos.sh
 
 Here are the procedures to troubleshoot the installations:
 
+- Reset k3s installation
+
+```bash
+rm -f /usr/local/bin/k3s
+systemctl restart install-k3s
+```
+
 ### Control-plane (k3s-server) node
 
 - Check for installation status
