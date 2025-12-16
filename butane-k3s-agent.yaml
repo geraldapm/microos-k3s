@@ -1,0 +1,41 @@
+variant: fcos
+version: 1.5.0
+systemd:
+  units:
+    - name: k3s-agent.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=K3s Agent Worker Service
+        After=network-online.target
+        Wants=network-online.target
+
+        [Service]
+        Type=notify
+        EnvironmentFile=-/etc/default/%N
+        EnvironmentFile=-/etc/sysconfig/%N
+        EnvironmentFile=-/etc/systemd/system/k3s.service.env
+        ExecStartPre=/bin/bash -c ' \
+              while [ ! -e /usr/local/bin/k3s ]; do \
+                echo "Waiting for /usr/local/bin/k3s to exists..."; \
+                sleep 5; \
+              done'
+        ExecStart=/usr/local/bin/k3s agent \
+              ###CLUSTERMODE### \
+              --token ###K3S_TOKEN### \
+              --node-ip ###IP_ADDRESS### \
+              --flannel-iface=enp1s0
+        KillMode=process
+        Delegate=yes
+        # Having non-zero Limit*s causes performance problems due to accounting overhead
+        # in the kernel. We recommend using cgroups to do container-local accounting.
+        LimitNOFILE=1048576
+        LimitNPROC=infinity
+        LimitCORE=infinity
+        TasksMax=infinity
+        TimeoutStartSec=0
+        Restart=always
+        RestartSec=5s
+
+        [Install]
+        WantedBy=multi-user.target

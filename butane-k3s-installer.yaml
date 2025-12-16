@@ -1,0 +1,44 @@
+variant: fcos
+version: 1.5.0
+systemd:
+  units:
+    - name: install-k3s.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=K3s Installer
+        After=network-online.target syslog.target
+        Wants=network-online.target
+        ConditionPathExists=!/usr/local/bin/k3s
+
+        [Service]
+        Type=oneshot
+        ExecStartPost=/bin/sh -c '\
+          for cmd in kubectl crictl ctr; do \
+            ln -s /usr/local/bin/k3s /usr/local/bin/$cmd; \
+          done'
+        ExecStart=/bin/sh -c 'curl -kL -o /usr/local/bin/k3s \
+          "https://github.com/k3s-io/k3s/releases/download/v1.34.2+k3s1/k3s";\
+          chmod +x /usr/local/bin/k3s; /usr/local/bin/k3s --version'
+        RemainAfterExit=true
+
+        [Install]
+        WantedBy=multi-user.target
+    - name: install-k3s-selinux.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=k3s-selinux Installer
+        After=network-online.target
+        Wants=network-online.target
+
+        [Service]
+        Type=oneshot
+        TimeoutStartSec=1200
+        ExecStart=/bin/sh -c 'transactional-update -n --no-selfupdate run zypper --no-gpg-checks install -y \
+          https://github.com/k3s-io/k3s-selinux/releases/download/v1.6.latest.1/k3s-selinux-1.6-1.slemicro.noarch.rpm;\
+          transactional-update apply'
+        RemainAfterExit=true
+
+        [Install]
+        WantedBy=multi-user.target
