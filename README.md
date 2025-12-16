@@ -1,5 +1,7 @@
 # K3s MicroOS provisioning with Ignition way
 
+This repository contains the quick way to deploy a K3s basic HA cluster with OpenSUSE MicroOS. It is intended to be recycleable and minimizing the requirement to intervene manually during K3s installation. Just sit down, grab some drinks, and enjoy the process. Easily creatable and destroyable K3s cluster.
+
 ## Prerequisites
 
 - An Installed Linux System with KVM capabilities
