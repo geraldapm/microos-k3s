@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - An Installed Linux System with KVM capabilities
-- MicroOS cloud image with qcow2 format. Download it from there -> https://get.opensuse.org/microos
+- MicroOS cloud image with qcow2 format. Download it from there -> https://get.opensuse.org/microos. NOTE: Do not use container host image because it contains podman and K3s does not using podman as its CNI (make it simple and clean).
 - Butane binary executable to convert butane definition into ignition file. Download it from there -> https://github.com/coreos/butane/releases
 
 ## Installing
