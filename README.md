@@ -122,3 +122,45 @@ Destroy the VMs
 ```bash
 bash start-microos.sh
 ```
+
+## Troubleshooting
+
+Here are the procedures to troubleshoot the installations:
+
+### Control-plane (k3s-server) node
+
+- Check for installation status
+
+```bash
+# Check package installation status. It is usually long because MicroOS will start fetching some repositories metadata
+systemctl status install-k3s
+systemctl status install-k3s-selinux
+systemctl status install-keepalived
+
+# Check the floating IP status
+systemctl status keepalived
+ip addr
+```
+
+- Check for k3s cluster
+
+```bash
+k3s kubectl get node
+systemctl status k3s-server
+```
+
+### Worker (k3s-agent) node
+
+- Check for installation status
+
+```bash
+# Check package installation status. It is usually long because MicroOS will start fetching some repositories metadata
+systemctl status install-k3s
+systemctl status install-k3s-selinux
+```
+
+- Check for k3s cluster state
+
+```bash
+systemctl status k3s-agent
+```
