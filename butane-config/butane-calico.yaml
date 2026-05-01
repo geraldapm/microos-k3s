@@ -1,5 +1,3 @@
-### NOTE: All of k3s instance (k3s-server and k3s-agent) must be restarted aftar calico nodes are ready (still troubleshooting)
-
 variant: fcos
 version: 1.5.0
 systemd:
