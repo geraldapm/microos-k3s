@@ -18,10 +18,10 @@ chmod +x butane
 
 ## Environments
 
-3 Control Plane Nodes and 2 Worker Nodes installed with Flatcar Linux and Kubernetes v1.35 cluster with Calico CNI v3.31.5. The spec is 2 vCPU, 2GB Memory and 20GB Stoage (in rootfs). It also has the Floating IP for kubernetes api server reachability and enabling High-Availability
+3 Control Plane Nodes and 2 Worker Nodes installed with Flatcar Linux and Kubernetes v1.35 cluster with Calico CNI v3.31.5. The spec is 2 vCPU, 2GB Memory and 20GB Stoage (in rootfs). It also has the Floating IP for kubernetes api server reachability and enabling High-Availability, Edit the subnet, ip and hostnames in file [hostlist.sh](./hostlist.sh).
 
 ```
-floatingip 192.168.122.100
+floatingip 192.168.122.99
 
 gpmcontrolplane1 192.168.122.101
 gpmcontrolplane2 192.168.122.102
