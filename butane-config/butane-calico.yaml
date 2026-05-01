@@ -1,3 +1,5 @@
+### NOTE: All of k3s instance (k3s-server and k3s-agent) must be restarted aftar calico nodes are ready (still troubleshooting)
+
 variant: fcos
 version: 1.5.0
 systemd:
@@ -17,6 +19,8 @@ systemd:
         Environment=KUBECONFIG='/etc/rancher/k3s/k3s.yaml'
         Environment=CALICO_VERSION=###CALICO_VERSION###
         Environment=POD_CIDR=###POD_CIDR###
+        Environment=API_SERVER_IP=###FLOATINGIP###
+        Environment=API_SERVER_PORT=6444
         Environment=PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/opt/bin"
         ExecStartPre=/bin/bash -c ' \
               until kubectl get node; do \
@@ -28,7 +32,10 @@ systemd:
           kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/${CALICO_VERSION}/manifests/tigera-operator.yaml; \
           curl https://raw.githubusercontent.com/projectcalico/calico/###CALICO_VERSION###/manifests/custom-resources-bpf.yaml -o /tmp/custom-resources.yaml; \
           sed -i "s|cidr: 192.168.0.0/16|cidr: ${POD_CIDR}|g" /tmp/custom-resources.yaml; \
+          sed -i "s|bpfNetworkBootstrap: Enabled|bpfNetworkBootstrap: Disabled|g" /tmp/custom-resources.yaml; \
+          sed -i "s|kubeProxyManagement: Enabled|kubeProxyManagement: Disabled|g" /tmp/custom-resources.yaml; \
           kubectl create -f /tmp/custom-resources.yaml; \
+          echo "{\\\"kind\\\":\\\"ConfigMap\\\",\\\"apiVersion\\\":\\\"v1\\\",\\\"metadata\\\":{\\\"name\\\":\\\"kubernetes-services-endpoint\\\",\\\"namespace\\\":\\\"tigera-operator\\\"},\\\"data\\\":{\\\"KUBERNETES_SERVICE_HOST\\\":\\\"${API_SERVER_IP}\\\",\\\"KUBERNETES_SERVICE_PORT\\\":\\\"${API_SERVER_PORT}\\\"}}" | kubectl apply -f -; \
           kubectl patch installation.operator/default --type='merge' -p '\''{"spec":{"flexVolumePath":"/usr/local/libexec/kubernetes/kubelet-plugins/volume/exec/"}}'\''; \
           kubectl patch installation.operator/default --type='merge' -p '\''{"spec":{"calicoNetwork":{"containerIPForwarding":"Enabled"}}}'\''; \
           mkdir -p /var/opt/bin; \

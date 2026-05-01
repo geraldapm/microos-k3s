@@ -106,6 +106,7 @@ for vm in ${vms[*]}; do
                 - inline: |-
                     $(cat $BUTANE_STATIC_DIR/butane-calico.yaml \
                         | sed "s+###CALICO_VERSION###+$CALICO_VERSION+g" \
+                        | sed "s+###FLOATINGIP###+$IP_FLOATING+g" \
                         | sed "s+###POD_CIDR###+$POD_CIDR+g" \
                         | butane)
 EOF
@@ -114,6 +115,7 @@ EOF
                 # - inline: |-
                 #     $(cat $BUTANE_STATIC_DIR/butane-calico.yaml \
                 #         | sed "s+###CALICO_VERSION###+$CALICO_VERSION+g" \
+                #         | sed "s+###FLOATINGIP###+$IP_FLOATING+g" \
                 #         | sed "s+###POD_CIDR###+$POD_CIDR+g" \
                 #         | butane)
 
