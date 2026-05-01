@@ -7,8 +7,8 @@ systemd:
       contents: |
         [Unit]
         Description=K3s Agent Worker Service
-        After=network-online.target
-        Wants=network-online.target
+        After=network-online.target install-k3s.service
+        Wants=network-online.target install-k3s.service
 
         [Service]
         Type=notify
@@ -23,8 +23,7 @@ systemd:
         ExecStart=/usr/local/bin/k3s agent \
               ###CLUSTERMODE### \
               --token ###K3S_TOKEN### \
-              --node-ip ###IP_ADDRESS### \
-              --flannel-iface=enp1s0
+              --node-ip ###IP_ADDRESS###
         KillMode=process
         Delegate=yes
         # Having non-zero Limit*s causes performance problems due to accounting overhead

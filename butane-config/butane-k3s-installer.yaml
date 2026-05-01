@@ -13,12 +13,13 @@ systemd:
 
         [Service]
         Type=oneshot
+        Environment=K3S_VERSION=###K3S_VERSION###
         ExecStartPost=/bin/sh -c '\
           for cmd in kubectl crictl ctr; do \
             ln -s /usr/local/bin/k3s /usr/local/bin/$cmd; \
           done'
         ExecStart=/bin/sh -c 'curl -kL -o /usr/local/bin/k3s \
-          "https://github.com/k3s-io/k3s/releases/download/v1.34.2+k3s1/k3s";\
+          "https://github.com/k3s-io/k3s/releases/download/${K3S_VERSION}/k3s";\
           chmod +x /usr/local/bin/k3s; /usr/local/bin/k3s --version'
         RemainAfterExit=true
 

@@ -7,8 +7,8 @@ systemd:
       contents: |
         [Unit]
         Description=K3s Server Control Plane Service
-        After=network-online.target
-        Wants=network-online.target
+        After=network-online.target install-k3s.service
+        Wants=network-online.target install-k3s.service
 
         [Service]
         Type=notify
@@ -29,8 +29,11 @@ systemd:
               --service-cidr=###SERVICE_CIDR### \
               --tls-san=###FLOATINGIP### \
               --selinux \
-              --flannel-backend=vxlan
-              --flannel-iface=enp1s0
+              --flannel-backend=none \
+              --disable-network-policy \
+              --disable-kube-proxy \
+              --disable=traefik \
+              --disable=servicelb \
         KillMode=process
         Delegate=yes
         # Having non-zero Limit*s causes performance problems due to accounting overhead
