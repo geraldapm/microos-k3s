@@ -1,5 +1,11 @@
 variant: fcos
 version: 1.5.0
+storage:
+  files:
+    - path: /etc/profile.d/k3s-kubeconfig.sh
+      contents:
+        inline: |
+          export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 systemd:
   units:
     - name: install-k3s.service

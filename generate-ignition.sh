@@ -104,10 +104,8 @@ for vm in ${vms[*]}; do
                         | sed "s+###K3S_TOKEN###+$K3S_TOKEN+g" \
                         | butane)
                 - inline: |-
-                    $(cat $BUTANE_STATIC_DIR/butane-cilium.yaml \
-                        | sed "s+###CILIUM_CLI_VERSION###+$CILIUM_CLI_VERSION+g" \
-                        | sed "s+###CILIUM_VERSION###+$CILIUM_VERSION+g" \
-                        | sed "s+###FLOATINGIP###+$IP_FLOATING+g" \
+                    $(cat $BUTANE_STATIC_DIR/butane-calico.yaml \
+                        | sed "s+###CALICO_VERSION###+$CALICO_VERSION+g" \
                         | sed "s+###POD_CIDR###+$POD_CIDR+g" \
                         | butane)
 EOF

@@ -38,6 +38,8 @@ systemd:
           sudo tar xzvfC /tmp/cilium-linux-${CLI_ARCH}.tar.gz /var/opt/bin/; \
           rm /tmp/cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}; \
           /var/opt/bin/cilium install --version ${CILIUM_VERSION} \
+              --set securityContext.privileged=true \
+              --set envoy.securityContext.privileged=true \
               --set kubeProxyReplacement=true \
               --set k8sServiceHost=${API_SERVER_IP} \
               --set k8sServicePort=${API_SERVER_PORT} \
