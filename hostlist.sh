@@ -20,9 +20,5 @@ hostlist=$(cat <<EOF
 192.168.122.105     gpmworker2
 192.168.122.106     gpmworker3
 192.168.122.107     gpmworker4
-192.168.122.108     gpmworker5    
-192.168.122.109     gpmworker6
-192.168.122.110     gpmworker7    
-192.168.122.111     gpmworker8
 EOF
 )
